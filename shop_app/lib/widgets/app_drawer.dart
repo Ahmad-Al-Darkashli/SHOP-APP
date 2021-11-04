@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth.dart';
 import '../screens/user_products_screen.dart';
 import '../screens/orders_screen.dart';
+// import '../helpers/custom_route.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -24,8 +27,15 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.payment),
             title: const Text('Orders'),
-            onTap: () => Navigator.of(context)
-                .pushReplacementNamed(OrdersScreen.routeName),
+            onTap: () => {
+              Navigator.of(context)
+                  .pushReplacementNamed(OrdersScreen.routeName),
+              // Navigator.of(context).pushReplacement(
+              //   CustomRoute(
+              //     builder: (context) => const OrdersScreen(),
+              //   ),
+              // ),
+            },
           ),
           const Divider(),
           ListTile(
@@ -33,6 +43,16 @@ class AppDrawer extends StatelessWidget {
             title: const Text('Manage Products'),
             onTap: () => Navigator.of(context)
                 .pushReplacementNamed(UserProductScreen.routeName),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text('Logout'),
+            onTap: () => {
+              Navigator.of(context, rootNavigator: true).pop(),
+              Navigator.of(context).pushReplacementNamed('/'),
+              Provider.of<Auth>(context, listen: false).logout(),
+            },
           ),
         ],
       ),
